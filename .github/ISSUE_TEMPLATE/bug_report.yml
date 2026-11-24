@@ -1,0 +1,56 @@
+name: バグ報告
+description: 不具合・バグの報告
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグの報告 Issue を作成します。再現手順をできる限り詳しく記入してください。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: バグの概要
+      description: 何が問題か 1〜2 文で説明してください
+      placeholder: 例：スケジュール作成 API で日付が空の場合に 500 エラーが返る
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現するための最小手順を記述してください
+      placeholder: |
+        1. `docker compose up -d` で DB を起動する
+        2. `./mvnw spring-boot:run` でバックエンドを起動する
+        3. `POST /api/events` に不正なデータを送信する
+        4. → 期待と異なるレスポンスが返る
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      description: エラーログ・スタックトレースを含めると解決が早くなります
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 環境情報
+      placeholder: |
+        - OS: Windows 11
+        - Java: 21
+        - Spring Boot: 3.4.x
+        - Docker Desktop: （バージョン）
