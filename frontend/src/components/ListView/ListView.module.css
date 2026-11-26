@@ -1,0 +1,13 @@
+.listView {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.emptyMessage {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: var(--space-6) 0;
+  font-size: var(--font-size-base);
+}

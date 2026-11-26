@@ -1,0 +1,54 @@
+.monthNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+
+.navGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.navButton:hover {
+  background: var(--color-surface);
+}
+
+.monthLabel {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  min-width: 110px;
+  text-align: center;
+}
+
+.todayButton {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  min-height: var(--tap-target);
+  transition: background 0.15s;
+}
+
+.todayButton:hover {
+  background: var(--color-surface);
+}

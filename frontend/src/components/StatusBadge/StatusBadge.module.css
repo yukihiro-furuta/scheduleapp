@@ -1,0 +1,23 @@
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.planned {
+  background: var(--color-planned-bg);
+  color: var(--color-planned-text);
+}
+
+.inProgress {
+  background: var(--color-in-progress-bg);
+  color: var(--color-in-progress-text);
+}
+
+.completed {
+  background: var(--color-completed-bg);
+  color: var(--color-completed-text);
+}
