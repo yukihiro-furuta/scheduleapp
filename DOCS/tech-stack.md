@@ -31,20 +31,22 @@
 
 | 種別 | 技術 | バージョン | 選定理由 |
 |---|---|---|---|
-| フレームワーク | React | 19.x | コンポーネント単位での状態管理に適しており、カレンダーUIのような複雑なUIを構築しやすい |
-| 型システム | TypeScript | 7.x | 型安全性によるバグの早期発見。IDE補完による開発効率向上 |
-| ビルドツール | Vite | 8.x | 高速なHMR（ホットリロード）と軽量なバンドル |
+| フレームワーク | React | **19.3.1** | コンポーネント単位での状態管理に適しており、カレンダーUIのような複雑なUIを構築しやすい |
+| 型システム | TypeScript | **7.0.2** | 型安全性によるバグの早期発見。IDE補完による開発効率向上 |
+| ビルドツール | Vite | **8.3.8** | 高速なHMR（ホットリロード）と軽量なバンドル |
+| Reactプラグイン | @vitejs/plugin-react | **6.1.2** | Vite 上で React の Fast Refresh を有効化 |
 | スタイル | CSS Modules | — | コンポーネントスコープのスタイルで命名衝突を防止。外部UIライブラリ不使用 |
+| Linter | oxlint | **1.90.0** | Rust 製の高速 Linter。ESLint 互換ルールセット |
 
 ### 2.2 バックエンド
 
 | 種別 | 技術 | バージョン | 選定理由 |
 |---|---|---|---|
-| フレームワーク | Spring Boot | 3.4.x | Javaの標準的なWebフレームワーク。REST APIの構築が容易 |
-| 言語 | Java | 21（LTS） | Spring Bootの主要言語。長期サポート版を採用 |
-| ORM | Spring Data JPA / Hibernate | — | SQLを直接書かずにDB操作が可能。エンティティとテーブルのマッピングを自動化 |
-| DB | PostgreSQL | 16 | オープンソースで高信頼性。UUID型・TIMESTAMPTZ型などの豊富な型をネイティブサポート |
-| マイグレーション | Flyway | — | SQLファイルによるスキーマバージョン管理。チーム開発・環境間差異を防止 |
+| フレームワーク | Spring Boot | **3.4.0** | Javaの標準的なWebフレームワーク。REST APIの構築が容易 |
+| 言語 | Java | **21**（LTS） | Spring Bootの主要言語。長期サポート版を採用 |
+| ORM | Spring Data JPA / Hibernate | **6.6.2** | SQLを直接書かずにDB操作が可能。エンティティとテーブルのマッピングを自動化 |
+| DB | PostgreSQL | **16.15** | オープンソースで高信頼性。UUID型・TIMESTAMPTZ型などの豊富な型をネイティブサポート |
+| マイグレーション | Flyway | **10.x**（Spring Boot 管理） | SQLファイルによるスキーマバージョン管理。チーム開発・環境間差異を防止 |
 | コンテナ | Docker Compose | — | `docker compose up` 一コマンドでDB含む全環境を起動できる |
 
 ### 2.3 開発・実行環境
@@ -52,9 +54,9 @@
 | 項目 | 内容 |
 |---|---|
 | 必要ツール | Docker Desktop / Node.js / JDK 21 |
-| フロントエンド起動 | `npm run dev`（Vite 開発サーバー、ポート 5173） |
-| バックエンド起動 | `./mvnw spring-boot:run` または `docker compose up` |
-| DB接続先 | `localhost:5432` / DB名: `scheduleapp` |
+| フロントエンド起動 | `npm run dev`（Vite 開発サーバー、ポート **5173**） |
+| バックエンド起動 | `./mvnw spring-boot:run`（ポート **8080**） |
+| DB接続先 | `localhost:**5433**` / DB名: `scheduleapp`（コンテナ内部ポート: 5432） |
 
 ---
 
