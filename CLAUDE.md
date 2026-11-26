@@ -81,6 +81,14 @@ test: テストの追加・修正
 - フロントエンド: `frontend/`（将来追加予定）
 - ドキュメント: `DOCS/`
 
+### ポート一覧（変更禁止）
+
+| サービス | ポート | 備考 |
+|---------|--------|------|
+| バックエンド（Spring Boot） | **8080** | 変更不可 |
+| フロントエンド（Vite） | **5173** | 変更不可 |
+| DB（ホスト公開） | **5433** | コンテナ内部は 5432 |
+
 ### 開発環境起動
 ```bash
 # DB 起動
@@ -88,6 +96,43 @@ docker compose up -d
 
 # バックエンド起動（ポート 8080）
 cd backend && ./mvnw spring-boot:run
+
+# フロントエンド起動（ポート 5173）
+cd frontend && npm run dev
 ```
 
 DB は `localhost:5433` で公開（コンテナ内部は 5432）。
+
+---
+
+## ポート競合時の必須手順
+
+サーバー起動前に対象ポートが使用中の場合、**ポート番号は変えずに占有プロセスを停止してから起動すること。**
+アプリが指定するデフォルトポートは絶対に変更しない。
+
+### Windows（PowerShell）での競合解消手順
+
+```powershell
+# 1. 競合プロセスの PID を確認
+netstat -ano | findstr :<PORT>
+
+# 2. 該当 PID を強制終了
+taskkill /PID <PID> /F
+
+# 3. 解消確認後にサーバーを起動
+```
+
+### 具体例（バックエンド 8080 が競合している場合）
+
+```powershell
+netstat -ano | findstr :8080
+# 出力例: TCP  0.0.0.0:8080  ...  LISTENING  12345
+taskkill /PID 12345 /F
+cd backend && ./mvnw spring-boot:run
+```
+
+### ルール
+
+- ポートを変更してサーバーを起動することは禁止。
+- 競合プロセスを停止できない場合は、ユーザーに報告して指示を仰ぐ。
+- `vite.config.ts` の `server.port` や `application.properties` の `server.port` を動作確認のために書き換えることは禁止。
