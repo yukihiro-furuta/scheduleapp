@@ -1,6 +1,7 @@
 package com.scheduleapp.dto;
 
 import com.scheduleapp.entity.Event;
+import com.scheduleapp.entity.EventCategory;
 import com.scheduleapp.entity.EventStatus;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class EventResponse {
     private LocalTime startTime;
     private LocalTime endTime;
     private EventStatus status;
+    private EventCategory category;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
@@ -31,6 +33,7 @@ public class EventResponse {
         r.startTime = e.getStartTime();
         r.endTime = e.getEndTime();
         r.status = e.getStatus();
+        r.category = e.getCategory();
         r.createdAt = e.getCreatedAt();
         r.updatedAt = e.getUpdatedAt();
         return r;
@@ -44,6 +47,7 @@ public class EventResponse {
     public LocalTime getStartTime() { return startTime; }
     public LocalTime getEndTime() { return endTime; }
     public EventStatus getStatus() { return status; }
+    public EventCategory getCategory() { return category; }
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
 }

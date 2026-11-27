@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchEvents } from '../api/events';
 import { getCurrentMonth } from '../utils/dateUtils';
-import type { EventResponse, FilterStatus } from '../types/event';
+import type { EventResponse, FilterCategory, FilterStatus } from '../types/event';
 
 interface UseEventsReturn {
   events: EventResponse[];
@@ -9,8 +9,10 @@ interface UseEventsReturn {
   error: string | null;
   currentMonth: string;
   activeFilter: FilterStatus;
+  activeCategoryFilter: FilterCategory;
   setCurrentMonth: (month: string) => void;
   setActiveFilter: (filter: FilterStatus) => void;
+  setActiveCategoryFilter: (filter: FilterCategory) => void;
   refresh: () => void;
 }
 
@@ -20,6 +22,7 @@ export function useEvents(): UseEventsReturn {
   const [error, setError] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState<string>(getCurrentMonth);
   const [activeFilter, setActiveFilter] = useState<FilterStatus>('all');
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState<FilterCategory>('all');
   const [tick, setTick] = useState(0);
 
   const refresh = useCallback(() => setTick(t => t + 1), []);
@@ -28,12 +31,16 @@ export function useEvents(): UseEventsReturn {
     let cancelled = false;
     setLoading(true);
     setError(null);
-    fetchEvents(currentMonth, activeFilter)
+    fetchEvents(currentMonth, activeFilter, activeCategoryFilter)
       .then(data => { if (!cancelled) setEvents(data); })
       .catch(err => { if (!cancelled) setError((err as Error).message); })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [currentMonth, activeFilter, tick]);
+  }, [currentMonth, activeFilter, activeCategoryFilter, tick]);
 
-  return { events, loading, error, currentMonth, activeFilter, setCurrentMonth, setActiveFilter, refresh };
+  return {
+    events, loading, error,
+    currentMonth, activeFilter, activeCategoryFilter,
+    setCurrentMonth, setActiveFilter, setActiveCategoryFilter, refresh,
+  };
 }

@@ -1,5 +1,6 @@
 import type { EventResponse } from '../../types/event';
 import { StatusBadge } from '../StatusBadge/StatusBadge';
+import { CategoryBadge } from '../CategoryBadge/CategoryBadge';
 import { formatDateRange, formatTime } from '../../utils/dateUtils';
 import styles from './EventCard.module.css';
 
@@ -17,7 +18,10 @@ export function EventCard({ event, onEdit }: EventCardProps) {
       onKeyDown={e => e.key === 'Enter' && onEdit(event)}>
       <div className={styles.cardHeader}>
         <span className={styles.title}>{event.title}</span>
-        <StatusBadge status={event.status} />
+        <div className={styles.badges}>
+          <CategoryBadge category={event.category} />
+          <StatusBadge status={event.status} />
+        </div>
       </div>
       <div className={styles.dateTime}>{dateRange}　{time}</div>
       {event.description && (

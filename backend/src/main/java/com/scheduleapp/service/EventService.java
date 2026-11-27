@@ -3,6 +3,7 @@ package com.scheduleapp.service;
 import com.scheduleapp.dto.EventRequest;
 import com.scheduleapp.dto.EventResponse;
 import com.scheduleapp.entity.Event;
+import com.scheduleapp.entity.EventCategory;
 import com.scheduleapp.entity.EventStatus;
 import com.scheduleapp.exception.EventNotFoundException;
 import com.scheduleapp.repository.EventRepository;
@@ -24,15 +25,27 @@ public class EventService {
         this.repository = repository;
     }
 
-    public List<EventResponse> findAll(String status, String month) {
+    public List<EventResponse> findAll(String status, String month, String category) {
         List<Event> events;
 
-        if (status != null && month != null) {
-            EventStatus s = EventStatus.fromDbValue(status);
+        EventStatus s = status != null ? EventStatus.fromDbValue(status) : null;
+        EventCategory c = category != null ? EventCategory.fromDbValue(category) : null;
+
+        if (s != null && c != null && month != null) {
+            YearMonth ym = YearMonth.parse(month);
+            events = repository.findByStartDateBetweenAndStatusAndCategory(ym.atDay(1), ym.atEndOfMonth(), s, c);
+        } else if (s != null && c != null) {
+            events = repository.findByStatusAndCategory(s, c);
+        } else if (s != null && month != null) {
             YearMonth ym = YearMonth.parse(month);
             events = repository.findByStartDateBetweenAndStatus(ym.atDay(1), ym.atEndOfMonth(), s);
-        } else if (status != null) {
-            events = repository.findByStatus(EventStatus.fromDbValue(status));
+        } else if (c != null && month != null) {
+            YearMonth ym = YearMonth.parse(month);
+            events = repository.findByStartDateBetweenAndCategory(ym.atDay(1), ym.atEndOfMonth(), c);
+        } else if (s != null) {
+            events = repository.findByStatus(s);
+        } else if (c != null) {
+            events = repository.findByCategory(c);
         } else if (month != null) {
             YearMonth ym = YearMonth.parse(month);
             events = repository.findByStartDateBetween(ym.atDay(1), ym.atEndOfMonth());
@@ -83,5 +96,6 @@ public class EventService {
         e.setStartTime(req.getStartTime());
         e.setEndTime(req.getEndTime());
         e.setStatus(req.getStatus());
+        e.setCategory(req.getCategory() != null ? req.getCategory() : EventCategory.OTHER);
     }
 }

@@ -1,12 +1,16 @@
-import type { EventResponse, EventStatus, FilterStatus } from '../types/event';
+import type { EventCategory, EventResponse, EventStatus, FilterCategory, FilterStatus } from '../types/event';
 
 export async function fetchEvents(
   month: string,
   filter: FilterStatus,
+  categoryFilter: FilterCategory,
 ): Promise<EventResponse[]> {
   const params = new URLSearchParams({ month });
   if (filter !== 'all') {
     params.set('status', filter);
+  }
+  if (categoryFilter !== 'all') {
+    params.set('category', categoryFilter);
   }
   const res = await fetch(`/api/events?${params.toString()}`);
   if (!res.ok) {
@@ -23,6 +27,7 @@ export interface CreateEventPayload {
   startTime: string | null;
   endTime: string | null;
   status: EventStatus;
+  category: EventCategory;
 }
 
 export async function createEvent(payload: CreateEventPayload): Promise<EventResponse> {

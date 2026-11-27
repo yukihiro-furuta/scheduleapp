@@ -3,6 +3,7 @@ import { useEvents } from './hooks/useEvents';
 import { getCurrentMonth, getPrevMonth, getNextMonth } from './utils/dateUtils';
 import { Header } from './components/Header/Header';
 import { FilterTabs } from './components/FilterTabs/FilterTabs';
+import { CategoryFilterTabs } from './components/CategoryFilterTabs/CategoryFilterTabs';
 import { MonthNav } from './components/MonthNav/MonthNav';
 import { CalendarView } from './components/CalendarView/CalendarView';
 import { ListView } from './components/ListView/ListView';
@@ -21,14 +22,15 @@ export default function App() {
   const [editingEvent, setEditingEvent] = useState<EventResponse | null>(null);
   const {
     events, loading, error,
-    currentMonth, activeFilter,
-    setCurrentMonth, setActiveFilter, refresh,
+    currentMonth, activeFilter, activeCategoryFilter,
+    setCurrentMonth, setActiveFilter, setActiveCategoryFilter, refresh,
   } = useEvents();
 
   return (
     <div className={styles.app}>
       <Header activeView={activeView} onViewChange={setActiveView} />
       <FilterTabs activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+      <CategoryFilterTabs activeCategory={activeCategoryFilter} onCategoryChange={setActiveCategoryFilter} />
       <main className={styles.main}>
         <MonthNav
           currentMonth={currentMonth}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { updateEvent } from '../../api/events';
-import type { EventResponse, EventStatus } from '../../types/event';
+import type { EventCategory, EventResponse, EventStatus } from '../../types/event';
 import styles from './EditModal.module.css';
 
 interface Props {
@@ -24,6 +24,7 @@ export function EditModal({ event, onClose, onUpdated }: Props) {
   const [startTime, setStartTime] = useState(toTimeInput(event.startTime));
   const [endTime, setEndTime] = useState(toTimeInput(event.endTime));
   const [status, setStatus] = useState<EventStatus>(event.status);
+  const [category, setCategory] = useState<EventCategory>(event.category ?? 'other');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,6 +41,7 @@ export function EditModal({ event, onClose, onUpdated }: Props) {
         startTime: startTime || null,
         endTime: endTime || null,
         status,
+        category,
       });
       onUpdated();
       onClose();
@@ -129,19 +131,35 @@ export function EditModal({ event, onClose, onUpdated }: Props) {
               </div>
             </div>
 
-            <div className={styles.field}>
-              <label className={styles.label}>
-                ステータス<span className={styles.required}>*</span>
-              </label>
-              <select
-                className={styles.select}
-                value={status}
-                onChange={e => setStatus(e.target.value as EventStatus)}
-              >
-                <option value="planned">予定</option>
-                <option value="in_progress">進行中</option>
-                <option value="completed">完了</option>
-              </select>
+            <div className={styles.row}>
+              <div className={styles.field}>
+                <label className={styles.label}>
+                  カテゴリ<span className={styles.required}>*</span>
+                </label>
+                <select
+                  className={styles.select}
+                  value={category}
+                  onChange={e => setCategory(e.target.value as EventCategory)}
+                >
+                  <option value="work">仕事</option>
+                  <option value="private">プライベート</option>
+                  <option value="other">その他</option>
+                </select>
+              </div>
+              <div className={styles.field}>
+                <label className={styles.label}>
+                  ステータス<span className={styles.required}>*</span>
+                </label>
+                <select
+                  className={styles.select}
+                  value={status}
+                  onChange={e => setStatus(e.target.value as EventStatus)}
+                >
+                  <option value="planned">予定</option>
+                  <option value="in_progress">進行中</option>
+                  <option value="completed">完了</option>
+                </select>
+              </div>
             </div>
 
             {error && <p className={styles.errorMsg}>{error}</p>}

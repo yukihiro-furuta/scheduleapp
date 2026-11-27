@@ -38,6 +38,9 @@ public class Event {
     @Column(nullable = false, length = 12)
     private EventStatus status;
 
+    @Column(nullable = false, length = 10)
+    private EventCategory category;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -69,6 +72,9 @@ public class Event {
 
     public EventStatus getStatus() { return status; }
     public void setStatus(EventStatus status) { this.status = status; }
+
+    public EventCategory getCategory() { return category; }
+    public void setCategory(EventCategory category) { this.category = category; }
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }

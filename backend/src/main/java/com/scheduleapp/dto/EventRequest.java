@@ -1,5 +1,6 @@
 package com.scheduleapp.dto;
 
+import com.scheduleapp.entity.EventCategory;
 import com.scheduleapp.entity.EventStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,8 @@ public class EventRequest {
     @NotNull
     private EventStatus status;
 
+    private EventCategory category;
+
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
@@ -49,4 +52,7 @@ public class EventRequest {
 
     public EventStatus getStatus() { return status; }
     public void setStatus(EventStatus status) { this.status = status; }
+
+    public EventCategory getCategory() { return category; }
+    public void setCategory(EventCategory category) { this.category = category; }
 }

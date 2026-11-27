@@ -4,6 +4,9 @@ export type EventStatus = 'planned' | 'in_progress' | 'completed';
 export type FilterStatus = EventStatus | 'all';
 export type ViewMode = 'calendar' | 'list';
 
+export type EventCategory = 'work' | 'private' | 'other';
+export type FilterCategory = EventCategory | 'all';
+
 export interface EventResponse {
   id: string;
   title: string;
@@ -13,6 +16,7 @@ export interface EventResponse {
   startTime: string | null; // "HH:mm:ss"（Jackson LocalTime は秒付き）
   endTime: string | null;
   status: EventStatus;
+  category: EventCategory;
   createdAt: string;
   updatedAt: string;
 }
