@@ -5,9 +5,10 @@ import styles from './ListView.module.css';
 
 interface ListViewProps {
   events: EventResponse[];
+  onEdit: (event: EventResponse) => void;
 }
 
-export function ListView({ events }: ListViewProps) {
+export function ListView({ events, onEdit }: ListViewProps) {
   const sorted = useMemo(
     () => [...events].sort((a, b) => a.startDate.localeCompare(b.startDate)),
     [events],
@@ -19,7 +20,7 @@ export function ListView({ events }: ListViewProps) {
 
   return (
     <div className={styles.listView}>
-      {sorted.map(ev => <EventCard key={ev.id} event={ev} />)}
+      {sorted.map(ev => <EventCard key={ev.id} event={ev} onEdit={onEdit} />)}
     </div>
   );
 }

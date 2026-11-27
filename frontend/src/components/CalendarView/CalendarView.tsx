@@ -9,9 +9,10 @@ const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'] as const;
 interface CalendarViewProps {
   events: EventResponse[];
   currentMonth: string;
+  onEdit: (event: EventResponse) => void;
 }
 
-export function CalendarView({ events, currentMonth }: CalendarViewProps) {
+export function CalendarView({ events, currentMonth, onEdit }: CalendarViewProps) {
   const grid = useMemo(() => buildCalendarGrid(currentMonth), [currentMonth]);
 
   const eventsByDate = useMemo(() => {
@@ -38,6 +39,7 @@ export function CalendarView({ events, currentMonth }: CalendarViewProps) {
               dateStr={dateStr}
               events={dateStr ? (eventsByDate.get(dateStr) ?? []) : []}
               isToday={dateStr ? isToday(dateStr) : false}
+              onEdit={onEdit}
             />
           ))}
         </div>

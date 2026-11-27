@@ -3,6 +3,7 @@ import styles from './EventChip.module.css';
 
 interface EventChipProps {
   event: EventResponse;
+  onEdit: (event: EventResponse) => void;
 }
 
 const STATUS_CLASS: Record<string, string> = {
@@ -11,9 +12,16 @@ const STATUS_CLASS: Record<string, string> = {
   completed:   styles.completed,
 };
 
-export function EventChip({ event }: EventChipProps) {
+export function EventChip({ event, onEdit }: EventChipProps) {
   return (
-    <div className={`${styles.chip} ${STATUS_CLASS[event.status]}`} title={event.title}>
+    <div
+      className={`${styles.chip} ${STATUS_CLASS[event.status]}`}
+      title={event.title}
+      onClick={e => { e.stopPropagation(); onEdit(event); }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => e.key === 'Enter' && onEdit(event)}
+    >
       {event.title}
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchEvents } from '../api/events';
 import { getCurrentMonth } from '../utils/dateUtils';
 import type { EventResponse, FilterStatus } from '../types/event';
@@ -11,6 +11,7 @@ interface UseEventsReturn {
   activeFilter: FilterStatus;
   setCurrentMonth: (month: string) => void;
   setActiveFilter: (filter: FilterStatus) => void;
+  refresh: () => void;
 }
 
 export function useEvents(): UseEventsReturn {
@@ -19,6 +20,9 @@ export function useEvents(): UseEventsReturn {
   const [error, setError] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState<string>(getCurrentMonth);
   const [activeFilter, setActiveFilter] = useState<FilterStatus>('all');
+  const [tick, setTick] = useState(0);
+
+  const refresh = useCallback(() => setTick(t => t + 1), []);
 
   useEffect(() => {
     let cancelled = false;
@@ -29,7 +33,7 @@ export function useEvents(): UseEventsReturn {
       .catch(err => { if (!cancelled) setError((err as Error).message); })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [currentMonth, activeFilter]);
+  }, [currentMonth, activeFilter, tick]);
 
-  return { events, loading, error, currentMonth, activeFilter, setCurrentMonth, setActiveFilter };
+  return { events, loading, error, currentMonth, activeFilter, setCurrentMonth, setActiveFilter, refresh };
 }

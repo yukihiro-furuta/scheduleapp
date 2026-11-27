@@ -8,9 +8,10 @@ interface CalendarCellProps {
   dateStr: string | null;
   events: EventResponse[];
   isToday: boolean;
+  onEdit: (event: EventResponse) => void;
 }
 
-export function CalendarCell({ dateStr, events, isToday }: CalendarCellProps) {
+export function CalendarCell({ dateStr, events, isToday, onEdit }: CalendarCellProps) {
   if (dateStr === null) {
     return <div className={`${styles.cell} ${styles.otherMonth}`} />;
   }
@@ -22,7 +23,7 @@ export function CalendarCell({ dateStr, events, isToday }: CalendarCellProps) {
   return (
     <div className={`${styles.cell} ${isToday ? styles.today : ''}`}>
       <span className={styles.dateNumber}>{day}</span>
-      {visible.map(ev => <EventChip key={ev.id} event={ev} />)}
+      {visible.map(ev => <EventChip key={ev.id} event={ev} onEdit={onEdit} />)}
       {extra > 0 && <span className={styles.moreLabel}>+{extra} more</span>}
     </div>
   );
