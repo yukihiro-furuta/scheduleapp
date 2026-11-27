@@ -23,8 +23,9 @@ public class EventController {
     @GetMapping
     public List<EventResponse> list(
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) String month) {
-        return service.findAll(status, month);
+            @RequestParam(required = false) String month,
+            @RequestParam(required = false) String category) {
+        return service.findAll(status, month, category);
     }
 
     @GetMapping("/{id}")
