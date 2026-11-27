@@ -6,7 +6,9 @@ import { FilterTabs } from './components/FilterTabs/FilterTabs';
 import { MonthNav } from './components/MonthNav/MonthNav';
 import { CalendarView } from './components/CalendarView/CalendarView';
 import { ListView } from './components/ListView/ListView';
-import type { ViewMode } from './types/event';
+import { CreateModal } from './components/CreateModal/CreateModal';
+import { EditModal } from './components/EditModal/EditModal';
+import type { EventResponse, ViewMode } from './types/event';
 import styles from './App.module.css';
 
 function getDefaultView(): ViewMode {
@@ -15,10 +17,12 @@ function getDefaultView(): ViewMode {
 
 export default function App() {
   const [activeView, setActiveView] = useState<ViewMode>(getDefaultView);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<EventResponse | null>(null);
   const {
     events, loading, error,
     currentMonth, activeFilter,
-    setCurrentMonth, setActiveFilter,
+    setCurrentMonth, setActiveFilter, refresh,
   } = useEvents();
 
   return (
@@ -31,16 +35,30 @@ export default function App() {
           onPrev={() => setCurrentMonth(getPrevMonth(currentMonth))}
           onNext={() => setCurrentMonth(getNextMonth(currentMonth))}
           onToday={() => setCurrentMonth(getCurrentMonth())}
+          onCreateClick={() => setShowCreateModal(true)}
         />
         {loading && <div className={styles.loading}>読み込み中...</div>}
         {error && <div className={styles.error}>{error}</div>}
         {!loading && !error && activeView === 'calendar' && (
-          <CalendarView events={events} currentMonth={currentMonth} />
+          <CalendarView events={events} currentMonth={currentMonth} onEdit={setEditingEvent} />
         )}
         {!loading && !error && activeView === 'list' && (
-          <ListView events={events} />
+          <ListView events={events} onEdit={setEditingEvent} />
         )}
       </main>
+      {showCreateModal && (
+        <CreateModal
+          onClose={() => setShowCreateModal(false)}
+          onCreated={refresh}
+        />
+      )}
+      {editingEvent && (
+        <EditModal
+          event={editingEvent}
+          onClose={() => setEditingEvent(null)}
+          onUpdated={refresh}
+        />
+      )}
     </div>
   );
 }
