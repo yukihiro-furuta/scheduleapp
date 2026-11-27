@@ -1,0 +1,68 @@
+.categoryFilterTabs {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  min-height: 36px;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotWork    { background: #6366f1; }
+.dotPrivate { background: #ec4899; }
+.dotOther   { background: #94a3b8; }
+
+.tabActive {
+  font-weight: 600;
+}
+
+.tabActiveWork {
+  background: #eef2ff;
+  color: #4338ca;
+  border-color: #6366f1;
+}
+
+.tabActivePrivate {
+  background: #fdf2f8;
+  color: #be185d;
+  border-color: #ec4899;
+}
+
+.tabActiveOther {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #94a3b8;
+}
+
+.tabActiveAll {
+  background: var(--color-active-bg);
+  color: var(--color-active-text);
+  border-color: var(--color-planned);
+}
