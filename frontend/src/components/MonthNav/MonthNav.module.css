@@ -52,3 +52,22 @@
 .todayButton:hover {
   background: var(--color-surface);
 }
+
+.createButton {
+  margin-left: auto;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-planned);
+  color: #fff;
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: var(--tap-target);
+  transition: background 0.15s;
+}
+
+.createButton:hover {
+  background: #2563eb;
+}
